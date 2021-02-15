@@ -15,18 +15,36 @@ var leftButton = document.querySelector('.left-button');
 var rightButton = document.querySelector('.right-button');
 
 
-   
 
 
-    fetch('https://pokeapi.co/api/v2/pokemon?offset=0&limit=20')
-    .then(pouet => pouet.json())
-    .then(data =>{
-                
-        for ( let i = 0; i < listItem.length; i++){   
+function getPokemon(url) {
+    fetch(url)
+        .then(pouet => pouet.json())
+        .then(data => {
 
-                var pokeName = data.results[i].name;
-                listItem[i].textContent = pokeName
+            var results = data.results;
+
+            console.log(data);
             
-        }
-    })
 
+
+            for (let i = 0; i < listItem.length; i++) {
+
+                var listPokedex = listItem[i];
+                var listPokemon = results[i];
+
+                var url = listPokemon.url;
+                var name = listPokemon.name;
+
+                //récupération de l'id dans l'url
+                var id = url.split('/')[url.split('/').length - 2];
+
+                console.log(id);
+                
+                listPokedex.textContent = `${id}. ${name}`
+
+            }
+        })
+        
+}
+getPokemon('https://pokeapi.co/api/v2/pokemon?offset=0&limit=20');
