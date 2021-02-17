@@ -13,8 +13,6 @@ var rightContainerScreen = document.querySelector(".right-container__screen");
 var listItem = document.querySelectorAll(".list-item")
 var leftButton = document.querySelector('.left-button');
 var rightButton = document.querySelector('.right-button');
-var flecheHaut = document.querySelector('d-pad__cell top');
-
 var listSuivante;
 var listprecedente;
 var id;
@@ -72,7 +70,7 @@ function getPokeData(id) {
                 pokeTypeTwo.classList.add('hide');
             }
             pokeName.textContent = capitalize(data.name);
-            pokeId.textContent = '# ' + data.id.toString().padStart(3, '0');
+            pokeId.textContent = '#' + data.id.toString().padStart(3, '0');
             mainScreen.setAttribute('class', 'main-screen ' + data.types[0].type.name);
             pokeBackImage.src = data.sprites.back_default;
             pokeFrontImage.src = data.sprites.front_default;
@@ -156,22 +154,32 @@ afficherData();
 // }
 
 
-function onKonamiCode(cb) {
+function onKonamiCode(cb, cb1) {
 
     var input = '';
     var code = 'ArrowUpArrowUpArrowDownArrowDownArrowLeftArrowRightArrowLeftArrowRightba';
+    var code1 = 'music'
     document.addEventListener('keydown', function (e) {
+        
         input += ("" + e.key);
+        console.log(input);
         if (input == code) {
             return cb();
         }
-        if (!code.indexOf(input)) return;
+        if (input == code1) {
+            return cb1();
+        }
+        if (!code.indexOf(input) || !code1.indexOf(input)) return;
         input = ("" + e.key);
     });
 }
 
 onKonamiCode(function () {
+    
+    let audio = new Audio('dittoSound.mp3');
+    audio.play();
     alert('Il ne faut pas se fier aux apparences.')
+
     fetch(`https://pokeapi.co/api/v2/pokemon/ditto`)
         .then(pouet => pouet.json())
         .then(data => {
@@ -184,11 +192,46 @@ onKonamiCode(function () {
                 pokeTypeTwo.classList.add('hide');
             }
             pokeName.textContent = capitalize(data.name);
-            pokeId.textContent = '# ' + data.id.toString().padStart(3, '0');
+            pokeId.textContent = '#' + data.id.toString().padStart(3, '0');
             mainScreen.setAttribute('class', 'main-screen ' + data.types[0].type.name);
             pokeBackImage.src = data.sprites.back_default;
             pokeFrontImage.src = data.sprites.front_default;
             pokeWeight.textContent = data.weight;
             pokeHeight.textContent = data.height;
         })
-});
+}, function () {
+    
+    let audio1 = new Audio('generiquePokemon.mp3');
+    audio1.play();
+    
+}
+);
+
+
+
+
+// let flecheBas = document.querySelector('.d-pad__cell .bottom');
+// let flecheHaut = document.querySelector('.d-pad__cell.top');
+// let inputMouse = '';
+// let code = 'hauthaut';
+
+
+
+// function onKonamiCode2(pouet) {
+
+//     var input2 = '';
+//     var code2 = 'hauthaut';
+
+//     flecheHaut.addEventListener('click', function () {
+//         input2 += 'haut';
+//     })
+//     if (input2 == code2) {
+//         return pouet();
+//     }
+//     if (!code2.indexOf(input2)) return;
+//     input2 = '';
+// }
+// onKonamiCode2(function () {
+//     alert('Bienvenue au Bourgpalette')
+    
+// })
