@@ -40,7 +40,7 @@ function getPokemon(url) {
                 var listPokemon = results[i];
 
                 url = listPokemon.url;
-                var name = listPokemon.name;
+                var name = capitalize(listPokemon.name);
 
                 //récupération de l'id dans l'url
                 const id = url.split('/')[url.split('/').length - 2];
@@ -63,31 +63,27 @@ function getPokeData (id){
     fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
     .then(pouet => pouet.json())
     .then(data => {
-        // console.log(data.types[0].type.name);
-        pokeTypeOne.textContent = data.types[0].type.name;
+        pokeTypeOne.textContent = capitalize(data.types[0].type.name);
         if(data.types[1]){
-            pokeTypeTwo.textContent = data.types[1].type.name;
+            pokeTypeTwo.textContent = capitalize(data.types[1].type.name);
+            pokeTypeTwo.classList.remove('hide');
         }
         else {
             pokeTypeTwo.classList.add('hide');
         }
-        pokeName.textContent = data.name;
-        pokeId.textContent = '# ' + data.id;
+        pokeName.textContent = capitalize(data.name);
+        pokeId.textContent = '# ' + data.id.toString().padStart(3, '0');
         mainScreen.setAttribute('class', 'main-screen ' + data.types[0].type.name);
         pokeBackImage.src = data.sprites.back_default;
         pokeFrontImage.src = data.sprites.front_default;
         pokeWeight.textContent = data.weight;
         pokeHeight.textContent = data.height;
-
-
-        
-        
     })
 }
 
 
 
-mainScreen.classList.remove('hide');
+
 
 
 
@@ -101,8 +97,14 @@ leftButton.addEventListener('click', function() {if(listPrecedente)getPokemon(li
 getPokemon('https://pokeapi.co/api/v2/pokemon?offset=0&limit=20');
 
 
+function capitalize(string) {
+    return string[0].toUpperCase() + string.slice(1);
+}
+
+
 
 function afficherData (){
+    
     let liste = document.querySelectorAll('.list-item')
     for (let i = 0; i < liste.length; i++) {
         let element = liste[i];
@@ -110,7 +112,81 @@ function afficherData (){
             console.log(element);
             let id = element.textContent.split('.')[0];
             getPokeData(id) 
-        })        
+        })
     }
 }
 afficherData();
+
+
+//Konami Code
+
+// var allowedKeys = {
+//     37: 'left',
+//     38: 'up',
+//     39: 'right',
+//     40: 'down',
+//     65: 'a',
+//     66: 'b'
+//   };
+
+
+// var konamiCode = ['up', 'up']//, 'down', 'down', 'left', 'right', 'left', 'right', 'b', 'a'];
+
+// var konamiCodePosition = 0;
+
+// document.addEventListener('keypress', function(e){
+//     var key = allowedKeys[e.keycode];
+//     var requiredKey = konamiCode[konamiCodePosition];
+//     if (key == requiredKey) {
+
+        
+//         konamiCodePosition++;
+//         if (konamiCodePosition == konamiCode.length) {
+//             activateSecret();
+//             konamiCodePosition = 0;
+//           }
+//         } else {
+//           konamiCodePosition = 0;
+//         }
+//     }
+// );
+
+// function activateSecret(){
+//     console.log('pouet');
+// }
+  
+
+function onKonamiCode(cb) {
+    var input = '';
+    var key = '38384040373937396665';
+    document.addEventListener('keydown', function (e) {
+      input += ("" + e.keyCode);
+      if (input === key) {
+        return cb();
+      }
+      if (!key.indexOf(input)) return;
+      input = ("" + e.keyCode);
+    });
+  }
+  
+  onKonamiCode(function () {
+      alert('Il ne faut pas se fier aux apparences')
+      fetch(`https://pokeapi.co/api/v2/pokemon/ditto`)
+    .then(pouet => pouet.json())
+    .then(data => {
+        pokeTypeOne.textContent = capitalize(data.types[0].type.name);
+        if(data.types[1]){
+            pokeTypeTwo.textContent = capitalize(data.types[1].type.name);
+            pokeTypeTwo.classList.remove('hide');
+        }
+        else {
+            pokeTypeTwo.classList.add('hide');
+        }
+        pokeName.textContent = capitalize(data.name);
+        pokeId.textContent = '# ' + data.id.toString().padStart(3, '0');
+        mainScreen.setAttribute('class', 'main-screen ' + data.types[0].type.name);
+        pokeBackImage.src = data.sprites.back_default;
+        pokeFrontImage.src = data.sprites.front_default;
+        pokeWeight.textContent = data.weight;
+        pokeHeight.textContent = data.height;
+    })});
