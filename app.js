@@ -30,8 +30,8 @@ function getPokemon(url) {
             listSuivante = data.next;
             var results = data.results;
 
-            
-            
+
+
 
 
             for (let i = 0; i < listItem.length; i++) {
@@ -45,40 +45,40 @@ function getPokemon(url) {
                 //récupération de l'id dans l'url
                 const id = url.split('/')[url.split('/').length - 2];
 
-                
+
 
                 listPokedex.textContent = `${id}. ${name}`;
-                
-                
+
+
 
             }
-            
-            
+
+
         })
-        
+
 
 }
 
-function getPokeData (id){
+function getPokeData(id) {
     fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
-    .then(pouet => pouet.json())
-    .then(data => {
-        pokeTypeOne.textContent = capitalize(data.types[0].type.name);
-        if(data.types[1]){
-            pokeTypeTwo.textContent = capitalize(data.types[1].type.name);
-            pokeTypeTwo.classList.remove('hide');
-        }
-        else {
-            pokeTypeTwo.classList.add('hide');
-        }
-        pokeName.textContent = capitalize(data.name);
-        pokeId.textContent = '# ' + data.id.toString().padStart(3, '0');
-        mainScreen.setAttribute('class', 'main-screen ' + data.types[0].type.name);
-        pokeBackImage.src = data.sprites.back_default;
-        pokeFrontImage.src = data.sprites.front_default;
-        pokeWeight.textContent = data.weight;
-        pokeHeight.textContent = data.height;
-    })
+        .then(pouet => pouet.json())
+        .then(data => {
+            pokeTypeOne.textContent = capitalize(data.types[0].type.name);
+            if (data.types[1]) {
+                pokeTypeTwo.textContent = capitalize(data.types[1].type.name);
+                pokeTypeTwo.classList.remove('hide');
+            }
+            else {
+                pokeTypeTwo.classList.add('hide');
+            }
+            pokeName.textContent = capitalize(data.name);
+            pokeId.textContent = '# ' + data.id.toString().padStart(3, '0');
+            mainScreen.setAttribute('class', 'main-screen ' + data.types[0].type.name);
+            pokeBackImage.src = data.sprites.back_default;
+            pokeFrontImage.src = data.sprites.front_default;
+            pokeWeight.textContent = data.weight;
+            pokeHeight.textContent = data.height;
+        })
 }
 
 
@@ -87,9 +87,9 @@ function getPokeData (id){
 
 
 
-rightButton.addEventListener('click', function() {if(listSuivante)getPokemon(listSuivante)});
+rightButton.addEventListener('click', function () { if (listSuivante) getPokemon(listSuivante) });
 
-leftButton.addEventListener('click', function() {if(listPrecedente)getPokemon(listPrecedente)});
+leftButton.addEventListener('click', function () { if (listPrecedente) getPokemon(listPrecedente) });
 
 
 
@@ -103,15 +103,15 @@ function capitalize(string) {
 
 
 
-function afficherData (){
-    
-    let liste = document.querySelectorAll('.list-item')
-    for (let i = 0; i < liste.length; i++) {
-        let element = liste[i];
-        element.addEventListener('click',function (){
+function afficherData() {
+
+
+    for (let i = 0; i < listItem.length; i++) {
+        let element = listItem[i];
+        element.addEventListener('click', function () {
             console.log(element);
             let id = element.textContent.split('.')[0];
-            getPokeData(id) 
+            getPokeData(id)
         })
     }
 }
@@ -139,7 +139,7 @@ afficherData();
 //     var requiredKey = konamiCode[konamiCodePosition];
 //     if (key == requiredKey) {
 
-        
+
 //         konamiCodePosition++;
 //         if (konamiCodePosition == konamiCode.length) {
 //             activateSecret();
@@ -154,39 +154,41 @@ afficherData();
 // function activateSecret(){
 //     console.log('pouet');
 // }
-  
+
 
 function onKonamiCode(cb) {
+
     var input = '';
-    var key = '38384040373937396665';
+    var code = 'ArrowUpArrowUpArrowDownArrowDownArrowLeftArrowRightArrowLeftArrowRightba';
     document.addEventListener('keydown', function (e) {
-      input += ("" + e.keyCode);
-      if (input === key) {
-        return cb();
-      }
-      if (!key.indexOf(input)) return;
-      input = ("" + e.keyCode);
+        input += ("" + e.key);
+        if (input == code) {
+            return cb();
+        }
+        if (!code.indexOf(input)) return;
+        input = ("" + e.key);
     });
-  }
-  
-  onKonamiCode(function () {
-      alert('Il ne faut pas se fier aux apparences')
-      fetch(`https://pokeapi.co/api/v2/pokemon/ditto`)
-    .then(pouet => pouet.json())
-    .then(data => {
-        pokeTypeOne.textContent = capitalize(data.types[0].type.name);
-        if(data.types[1]){
-            pokeTypeTwo.textContent = capitalize(data.types[1].type.name);
-            pokeTypeTwo.classList.remove('hide');
-        }
-        else {
-            pokeTypeTwo.classList.add('hide');
-        }
-        pokeName.textContent = capitalize(data.name);
-        pokeId.textContent = '# ' + data.id.toString().padStart(3, '0');
-        mainScreen.setAttribute('class', 'main-screen ' + data.types[0].type.name);
-        pokeBackImage.src = data.sprites.back_default;
-        pokeFrontImage.src = data.sprites.front_default;
-        pokeWeight.textContent = data.weight;
-        pokeHeight.textContent = data.height;
-    })});
+}
+
+onKonamiCode(function () {
+    alert('Il ne faut pas se fier aux apparences.')
+    fetch(`https://pokeapi.co/api/v2/pokemon/ditto`)
+        .then(pouet => pouet.json())
+        .then(data => {
+            pokeTypeOne.textContent = capitalize(data.types[0].type.name);
+            if (data.types[1]) {
+                pokeTypeTwo.textContent = capitalize(data.types[1].type.name);
+                pokeTypeTwo.classList.remove('hide');
+            }
+            else {
+                pokeTypeTwo.classList.add('hide');
+            }
+            pokeName.textContent = capitalize(data.name);
+            pokeId.textContent = '# ' + data.id.toString().padStart(3, '0');
+            mainScreen.setAttribute('class', 'main-screen ' + data.types[0].type.name);
+            pokeBackImage.src = data.sprites.back_default;
+            pokeFrontImage.src = data.sprites.front_default;
+            pokeWeight.textContent = data.weight;
+            pokeHeight.textContent = data.height;
+        })
+});
