@@ -18,8 +18,6 @@ var listprecedente;
 var id;
 var url;
 
-
-
 function getPokemon(url) {
     fetch(url)
         .then(pouet => pouet.json())
@@ -27,34 +25,15 @@ function getPokemon(url) {
             listPrecedente = data.previous;
             listSuivante = data.next;
             var results = data.results;
-
-
-
-
-
             for (let i = 0; i < listItem.length; i++) {
-
                 var listPokedex = listItem[i];
                 var listPokemon = results[i];
-
                 url = listPokemon.url;
                 var name = capitalize(listPokemon.name);
-
-                //récupération de l'id dans l'url
                 const id = url.split('/')[url.split('/').length - 2];
-
-
-
                 listPokedex.textContent = `${id}. ${name}`;
-
-
-
             }
-
-
         })
-
-
 }
 
 function getPokeData(id) {
@@ -79,80 +58,26 @@ function getPokeData(id) {
         })
 }
 
-
-
-
-
-
-
 rightButton.addEventListener('click', function () { if (listSuivante) getPokemon(listSuivante) });
 
 leftButton.addEventListener('click', function () { if (listPrecedente) getPokemon(listPrecedente) });
 
-
-
-
 getPokemon('https://pokeapi.co/api/v2/pokemon?offset=0&limit=20');
-
 
 function capitalize(string) {
     return string[0].toUpperCase() + string.slice(1);
 }
 
-
-
 function afficherData() {
-
-
     for (let i = 0; i < listItem.length; i++) {
-        let element = listItem[i];
-        element.addEventListener('click', function () {
-            console.log(element);
-            let id = element.textContent.split('.')[0];
+        let pokemon = listItem[i];
+        pokemon.addEventListener('click', function () {
+            let id = pokemon.textContent.split('.')[0];
             getPokeData(id)
         })
     }
 }
 afficherData();
-
-
-//Konami Code
-
-// var allowedKeys = {
-//     37: 'left',
-//     38: 'up',
-//     39: 'right',
-//     40: 'down',
-//     65: 'a',
-//     66: 'b'
-//   };
-
-
-// var konamiCode = ['up', 'up']//, 'down', 'down', 'left', 'right', 'left', 'right', 'b', 'a'];
-
-// var konamiCodePosition = 0;
-
-// document.addEventListener('keypress', function(e){
-//     var key = allowedKeys[e.keycode];
-//     var requiredKey = konamiCode[konamiCodePosition];
-//     if (key == requiredKey) {
-
-
-//         konamiCodePosition++;
-//         if (konamiCodePosition == konamiCode.length) {
-//             activateSecret();
-//             konamiCodePosition = 0;
-//           }
-//         } else {
-//           konamiCodePosition = 0;
-//         }
-//     }
-// );
-
-// function activateSecret(){
-//     console.log('pouet');
-// }
-
 
 function onKonamiCode(cb, cb1) {
 
@@ -162,7 +87,7 @@ function onKonamiCode(cb, cb1) {
     document.addEventListener('keydown', function (e) {
         
         input += ("" + e.key);
-        console.log(input);
+        // console.log(input);
         if (input == code) {
             return cb();
         }
@@ -174,12 +99,10 @@ function onKonamiCode(cb, cb1) {
     });
 }
 
-onKonamiCode(function () {
-    
+onKonamiCode(function () {    
     let audio = new Audio('dittoSound.mp3');
     audio.play();
     alert('Il ne faut pas se fier aux apparences.')
-
     fetch(`https://pokeapi.co/api/v2/pokemon/ditto`)
         .then(pouet => pouet.json())
         .then(data => {
@@ -199,39 +122,52 @@ onKonamiCode(function () {
             pokeWeight.textContent = data.weight;
             pokeHeight.textContent = data.height;
         })
-}, function () {
-    
+}, 
+function () {    
     let audio1 = new Audio('generiquePokemon.mp3');
-    audio1.play();
-    
+    audio1.play();    
 }
 );
 
 
 
 
-// let flecheBas = document.querySelector('.d-pad__cell .bottom');
-// let flecheHaut = document.querySelector('.d-pad__cell.top');
-// let inputMouse = '';
-// let code = 'hauthaut';
 
+function onKonamiCode2(cb3) {
 
-
-// function onKonamiCode2(pouet) {
-
-//     var input2 = '';
-//     var code2 = 'hauthaut';
-
-//     flecheHaut.addEventListener('click', function () {
-//         input2 += 'haut';
-//     })
-//     if (input2 == code2) {
-//         return pouet();
-//     }
-//     if (!code2.indexOf(input2)) return;
-//     input2 = '';
-// }
-// onKonamiCode2(function () {
-//     alert('Bienvenue au Bourgpalette')
-    
-// })
+    let flecheBas = document.querySelector('.d-pad__cell.bottom');
+    let flecheHaut = document.querySelector('.d-pad__cell.top');
+    let flecheGauche = document.querySelector('.d-pad__cell.left');
+    let flecheDroite = document.querySelector('.d-pad__cell.right');
+    // let btnA = document.querySelector('.controllers__buttons')
+    var input2 = '';
+    var code2 = 'hauthautbasbasgauchedroitegauchedroite';
+    // btnA.addEventListener('click', function(){
+        // input2 += 'a'
+        // console.log(input2);
+    // })
+    flecheDroite.addEventListener('click', function () {
+        input2 += 'droite';
+        console.log(input2);
+    })
+    flecheGauche.addEventListener('click', function () {
+        input2 += 'gauche';
+        console.log(input2);
+    })
+    flecheBas.addEventListener('click', function () {
+        input2 += 'bas';
+        console.log(input2);
+    })
+    flecheHaut.addEventListener('click', function () {
+        input2 += 'haut';
+        console.log(input2);
+    })
+    if (input2 == code2) {
+        return cb3();
+    }
+    if (!code2.indexOf(input2))
+    input2 = '';
+}
+onKonamiCode2(function () {
+    alert();
+})
